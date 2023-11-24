@@ -1,8 +1,8 @@
 package com.poly.truongnvph29176.controller;
 
-import com.poly.truongnvph29176.dto.request.OrderRequest;
-import com.poly.truongnvph29176.entity.Order;
-import com.poly.truongnvph29176.service.OrderService;
+import com.poly.truongnvph29176.dto.request.OrderDetailRequest;
+import com.poly.truongnvph29176.entity.OrderDetail;
+import com.poly.truongnvph29176.service.OrderDetailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,33 +21,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/orders")
-public class OrderController {
-    private final OrderService orderService;
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getOrderById(@PathVariable("id") Integer id) {
-        try {
-            Order order = orderService.getOrderById(id);
-            return ResponseEntity.ok(order);
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/account/{id}")
-    public ResponseEntity<?> getOrderByAccount(@PathVariable("id") Integer id) {
-        try {
-            List<Order> orders = orderService.findOrderByAccount(id);
-            return ResponseEntity.ok(orders);
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+@RequestMapping("${api.prefix}/order-details")
+public class OrderDetailController {
+    private final OrderDetailService orderDetailService;
 
     @PostMapping("")
-    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderRequest orderRequest,
-                                         BindingResult result) {
+    public ResponseEntity<?> createOrderDetail(@Valid @RequestBody OrderDetailRequest orderDetailRequest,
+                                               BindingResult result) {
         try {
             if(result.hasErrors()) {
                 List<String> errorMessage = result.getFieldErrors()
@@ -56,18 +36,30 @@ public class OrderController {
                         .toList();
                 return ResponseEntity.badRequest().body(errorMessage);
             }else {
-                Order order = orderService.createOrder(orderRequest);
-                return ResponseEntity.ok(order);
+                OrderDetail orderDetail = orderDetailService.createOrderDetail(orderDetailRequest);
+                return ResponseEntity.ok(orderDetail);
             }
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrderDetail(@PathVariable("id") Integer id) throws Exception {
+        OrderDetail orderDetail = orderDetailService.findOrderDetailById(id);
+        return ResponseEntity.ok(orderDetail);
+    }
+
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<?> getOrderDetails(@PathVariable("orderId") Integer orderId) {
+        List<OrderDetail> orderDetails = orderDetailService.findByOrder(orderId);
+        return ResponseEntity.ok(orderDetails);
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateOrder(@PathVariable("id") Integer id,
-                                         @Valid @RequestBody OrderRequest orderRequest,
-                                         BindingResult result) {
+    public ResponseEntity<?> updateOrderDetail(@PathVariable("id") Integer id,
+                                               @Valid @RequestBody OrderDetailRequest orderDetailRequest,
+                                               BindingResult result) {
         try {
             if(result.hasErrors()) {
                 List<String> errorMessage = result.getFieldErrors()
@@ -76,8 +68,8 @@ public class OrderController {
                         .toList();
                 return ResponseEntity.badRequest().body(errorMessage);
             }else {
-                Order order = orderService.updateOrder(id, orderRequest);
-                return ResponseEntity.ok(order);
+                OrderDetail orderDetail = orderDetailService.updateOrderDetail(id, orderDetailRequest);
+                return ResponseEntity.ok(orderDetail);
             }
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -85,8 +77,8 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOrder(@PathVariable("id") Integer id) {
-        orderService.deleteOrder(id);
+    public ResponseEntity<?> deleteOrderDetail(@PathVariable("id") Integer id) {
+        orderDetailService.deleteOrderDetail(id);
         return ResponseEntity.ok("Deleted successfully");
     }
 }

@@ -13,11 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Data
 @Builder
-public class OrderRequest {
-    private Integer accountId;
-    private String fullName;
-    private String phoneNumber;
-    private String address;
+public class OrderDetailRequest {
+    private Integer orderId;
+    private Integer productDetailId;
+    private Float price;
+    private Integer quantity;
     private Float totalMoney;
-    private String paymentMethod;
 }

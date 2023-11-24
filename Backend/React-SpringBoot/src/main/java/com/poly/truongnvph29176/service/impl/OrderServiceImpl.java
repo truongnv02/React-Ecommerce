@@ -4,6 +4,7 @@ import com.poly.truongnvph29176.dto.request.OrderRequest;
 import com.poly.truongnvph29176.entity.Account;
 import com.poly.truongnvph29176.entity.Order;
 import com.poly.truongnvph29176.exception.DataNotFoundException;
+import com.poly.truongnvph29176.model.OrderStatus;
 import com.poly.truongnvph29176.repository.AccountRepository;
 import com.poly.truongnvph29176.repository.OrderRepository;
 import com.poly.truongnvph29176.service.OrderService;
@@ -11,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -31,9 +32,9 @@ public class OrderServiceImpl implements OrderService {
                 .fullName(orderRequest.getFullName())
                 .phoneNumber(orderRequest.getPhoneNumber())
                 .address(orderRequest.getAddress())
-                .orderDate(LocalDate.now())
-                .status("")
+                .orderDate(LocalDateTime.now())
                 .totalMoney(orderRequest.getTotalMoney())
+                .status(OrderStatus.PENDING)
                 .isActive(true)
                 .paymentMethod(orderRequest.getPaymentMethod())
                 .build();

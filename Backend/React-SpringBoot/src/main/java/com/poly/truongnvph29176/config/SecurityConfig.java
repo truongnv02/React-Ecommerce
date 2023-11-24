@@ -42,7 +42,29 @@ public class SecurityConfig {
                                 String.format("%s/product-details**", apiPrefix)).permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 String.format("%s/product-details/**", apiPrefix))
-                        .hasAnyAuthority(RoleEnums.ADMIN.name(), RoleEnums.MANAGER.name())
+                        .hasAuthority(RoleEnums.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.GET,
+                                String.format("%s/orders**", apiPrefix)).permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                String.format("%s/orders/**", apiPrefix)).permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                String.format("%s/orders/**", apiPrefix))
+                        .hasAuthority(RoleEnums.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT,
+                                String.format("%s/orders/**", apiPrefix))
+                        .hasAuthority(RoleEnums.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.GET,
+                                String.format("%s/order-details**", apiPrefix)).permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                String.format("%s/order-details/**", apiPrefix)).permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                String.format("%s/order-details/**", apiPrefix))
+                        .hasAuthority(RoleEnums.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT,
+                                String.format("%s/order-details/**", apiPrefix))
+                        .hasAuthority(RoleEnums.ADMIN.name())
 
                         .anyRequest()
                         .authenticated())

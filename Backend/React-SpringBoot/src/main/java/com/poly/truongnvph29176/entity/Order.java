@@ -20,8 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -52,7 +51,7 @@ public class Order implements Serializable {
     private String address;
 
     @Column(name = "order_date")
-    private LocalDate orderDate;
+    private LocalDateTime orderDate;
 
     @Column(name = "status")
     private String status;

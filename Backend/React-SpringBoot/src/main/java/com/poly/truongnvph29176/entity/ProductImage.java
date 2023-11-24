@@ -25,7 +25,7 @@ import java.io.Serializable;
 @Data
 @Builder
 @Entity
-@Table(name = "Images")
+@Table(name = "ProductImages")
 public class ProductImage implements Serializable {
     public static final int MAXIMUM_IMAGES_PER_PRODUCT = 4;
 
